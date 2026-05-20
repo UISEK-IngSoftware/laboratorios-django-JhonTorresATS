@@ -1,0 +1,17 @@
+{% load static %}
+<html>
+    <head>
+        <title>{% block title  %}{% endblock title %}</title>
+        <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'custom.css' %}" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <div class="bg-primary text-white p-4 text-center">
+                <img class="logo" src="{% static 'pokedex2.png' %}" alt="Pokedex Logo">
+            </div>  
+            {% block content %}{% endblock content %}
+            </div>
+    </body>
+</html>
