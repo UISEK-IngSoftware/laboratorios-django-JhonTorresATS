@@ -1,20 +1,67 @@
 {% extends "base.html" %}
+{# Página principal de la Pokédex donde se muestran pokemons y entrenadores #}
 {% block title %}Pagina Inicial{% endblock title %}
 {% block content %}
-<h3>Pokemons</h3>
-<ul class="list-group">
+{# Sección de Pokemons: título, botón para agregar y lista de tarjetas #}
+<h3 class="mb-4" allign="center">Pokemons</h3>
+<a href="{% url 'pokedex:add_pokemon' %}" class="btn btn-success btn-lg mb-4">
+    <i class="fa-solid fa-plus"></i> Agregar Pokemon
+</a>
+<div class="row gx-4 gy-4">
     {% for pokemon in pokemons %}
-    <li class="list-group-item">
-        <a href="{% url 'pokedex:pokemon' pokemon_id=pokemon.id %}">{{ pokemon.name|capfirst }}</a>
-    </li>
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm pokemon-card">
+            <div class="card-body text-center">
+                <div class="pokemon-img-wrapper mb-3">
+                    <img src="{{ pokemon.picture.url }}" class="card-img-top card-pokemon" alt="{{ pokemon.name }}">
+                </div>
+                <h5 class="card-title">{{ pokemon.name|capfirst }}</h5>
+                <p class="card-text text-muted mb-3">Altura: {{ pokemon.height }} m</p>
+                <a href="{% url 'pokedex:pokemon' pokemon_id=pokemon.id %}" class="btn btn-warning btn-sm">
+                    <i class="fa-solid fa-eye"></i>
+                </a>
+                <a href="{% url 'pokedex:update_pokemon' pokemon_id=pokemon.id %}" class="btn btn-warning btn-sm">
+                    <i class="fa-solid fa-edit"></i>
+                </a>
+                 <a href="{% url 'pokedex:delete_pokemon' pokemon_id=pokemon.id %}" class="btn btn-danger btn-sm">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+            </div>
+        </div>
+    </div>
     {% endfor %}
-</ul>
-<h3>Trainers</h3>
-<ul class="list-group">
+</div>
+
+{# Sección de entrenadores: muestra tarjetas para cada entrenador #}
+<h3 class="mt-5 mb-4">Trainers</h3>
+<a href="{% url 'pokedex:add_trainer' %}" class="btn btn-success btn-lg mb-4">
+    <i class="fa-solid fa-plus"></i> Agregar Entrenador
+</a>
+<div class="row gx-4 gy-4">
     {% for trainer in trainers %}
-    <li class="list-group-item">
-        <a href="{% url 'pokedex:trainer_details' trainer_id=trainer.id %}">{{ trainer }}</a>
-    </li>
+    {# Cada entrenador se muestra en una tarjeta con imagen, nombre, nivel y acciones #}
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm pokemon-card">
+            <div class="card-body text-center">
+                {% if trainer.picture %}
+                <div class="pokemon-img-wrapper mb-3">
+                    <img src="{{ trainer.picture.url }}" class="card-img-top card-pokemon" alt="{{ trainer.first_name }}">
+                </div>
+                {% endif %}
+                <h5 class="card-title">{{ trainer.first_name|capfirst }} {{ trainer.last_name|capfirst }}</h5>
+                <p class="card-text text-muted mb-3">Nivel: {{ trainer.level }}</p>
+                <a href="{% url 'pokedex:trainer_details' trainer_id=trainer.id %}" class="btn btn-warning btn-sm">
+                    <i class="fa-solid fa-eye"></i>
+                </a>
+                <a href="{% url 'pokedex:update_trainer' trainer_id=trainer.id %}" class="btn btn-warning btn-sm">
+                    <i class="fa-solid fa-edit"></i>
+                </a>
+                 <a href="{% url 'pokedex:delete_trainer' trainer_id=trainer.id %}" class="btn btn-danger btn-sm">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+            </div>
+        </div>
+    </div>
     {% endfor %}
-</ul>
+</div>
 {% endblock content %}

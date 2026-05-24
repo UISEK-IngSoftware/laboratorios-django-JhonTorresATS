@@ -1,11 +1,15 @@
 {% extends "base.html" %}
 {% block title %}Detalles del Entrenador{% endblock title %}
 {% block content %}
-<h3>{{ trainer | capfirst }}</h3>
-<p>Details:</p>
-<ul>
-    <li>Level: {{ trainer.level }}</li>
-    <li>Date of birth: {{ trainer.birth_date }}</li>
-
-</ul>
+{# Tarjeta de detalles del entrenador con foto, nombre, nivel y fecha de nacimiento #}
+<div class="card mb-3 card-thick-border mx-auto" style="max-width: 450px;">
+  <img src="{{ trainer.picture.url }}" class="card-img-top card-pokemon mx-auto d-block" alt="{{ trainer.first_name }}">
+  <div class="card-body">
+    <h5 class="card-title">{{ trainer.first_name|capfirst }} {{ trainer.last_name|capfirst }}</h5>
+    <p class="card-text">Nivel: {{ trainer.level }}</p>
+    <p class="card-text">Fecha de nacimiento: {{ trainer.birth_date }}</p>
+    <a href="{% url 'pokedex:index' %}" class="btn btn-secondary mt-3">Cancelar</a> 
+  </div>
+</div>
+    
 {% endblock content %}
