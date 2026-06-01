@@ -1,11 +1,13 @@
 from django.urls import path
-
 from . import views
+from django.contrib.auth.views import LoginView
 
 app_name = "pokedex"
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("pokemon/", views.pokemon_list, name="pokemon_list"),
+    path("trainer/", views.trainer_list, name="trainer_list"),
     path("pokemon/<int:pokemon_id>/", views.pokemon, name="pokemon"),
     path("trainer/<int:trainer_id>/", views.trainer_details, name="trainer_details"),
     path("add_pokemon/", views.add_pokemon, name="add_pokemon"),
@@ -14,5 +16,5 @@ urlpatterns = [
     path("update_trainer/<int:trainer_id>/", views.update_trainer, name="update_trainer"),
     path("delete_pokemon/<int:pokemon_id>/", views.delete_pokemon, name="delete_pokemon"),
     path("delete_trainer/<int:trainer_id>/", views.delete_trainer, name="delete_trainer"),
-
-]   
+    path("login/", LoginView.as_view(template_name='login_form.html'), name="login"),
+]

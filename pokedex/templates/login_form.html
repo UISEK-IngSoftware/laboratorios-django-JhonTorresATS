@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Incio de sesion{% endblock title %}
+{% block content %}
+<h2>Inicio de sesion </h2>
+<form method="post">
+    {% csrf_token %}
+<div class = row d-flex justify-content-center>
+    <div class="col-md-6">
+        <div>
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </div>
+</div>
+</form>
+{% endblock %}

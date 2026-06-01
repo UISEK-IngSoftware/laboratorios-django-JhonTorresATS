@@ -5,6 +5,7 @@
 
 {% block content %}
 {# Tarjeta de información del Pokemon con foto y datos físicos. #}
+<br>
 <div class="card mb-3 card-thick-border mx-auto" style="max-width: 450px;">
   <img src="{{ pokemon.picture.url }}" class="card-img-top card-pokemon mx-auto d-block" alt="{{ pokemon.name|capfirst }}">
   <div class="card-body">
@@ -12,7 +13,7 @@
     <p class="card-text">Peso: {{ pokemon.weight }} kg</p>
     <p class="card-text">Altura: {{ pokemon.height }} m</p>
     <p class="card-text"><small class="text-body-primary">Categoría: {{ pokemon.get_type_display }}</small></p>
-    <a href="{% url 'pokedex:index' %}" class="btn btn-secondary mt-3">Cancelar</a>
+    <a href="{% url 'pokedex:pokemon_list' %}" class="btn btn-secondary mt-3">Cancelar</a>
   </div>
 </div>
 {% endblock content %}

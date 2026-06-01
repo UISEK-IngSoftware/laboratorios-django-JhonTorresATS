@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Pokémon | Pokédex{% endblock title %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Encabezado con contador -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h1 class="display-5 fw-bold text-dark m-0">
+            <i class="fas fa-paw text-warning me-2"></i>Pokémon
+        </h1>
+        <span class="badge bg-primary rounded-pill fs-6 px-3 py-2">
+            {{ pokemons|length }} registrados
+        </span>
+    </div>
+
+    <!-- Grid responsivo con mejor espaciado -->
+    <div class="row g-4">
+        {% for pokemon in pokemons %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden transition-all pokemon-card">
+                <!-- Contenedor de imagen con fondo degradado -->
+                <div class="card-img-top-wrapper bg-gradient-dark d-flex align-items-center justify-content-center p-3" style="height: 220px;">
+                    {% if pokemon.picture %}
+                        <img src="{{ pokemon.picture.url }}" class="img-fluid rounded-3 pokemon-img" alt="{{ pokemon.name }}" style="max-height: 100%; object-fit: contain;">
+                    {% else %}
+                        <i class="fas fa-dragon fa-4x text-secondary"></i>
+                    {% endif %}
+                </div>
+                
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold mb-2">{{ pokemon.name|capfirst }}</h5>
+                    <p class="card-text text-muted">
+                        <i class="fas fa-ruler-vertical me-1"></i> Altura: {{ pokemon.height }} m
+                    </p>
+                    
+                    <!-- Botones de acción alineados -->
+                    <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+                        <a href="{% url 'pokedex:pokemon' pokemon.id %}" class="btn btn-outline-info btn-sm rounded-pill px-3">
+                            <i class="fas fa-eye me-1"></i> Ver
+                        </a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'pokedex:update_pokemon' pokemon.id %}" class="btn btn-outline-warning btn-sm rounded-pill px-3">
+                                <i class="fas fa-edit me-1"></i> Editar
+                            </a>
+                            <a href="{% url 'pokedex:delete_pokemon' pokemon.id %}" class="btn btn-outline-danger btn-sm rounded-pill px-3">
+                                <i class="fas fa-trash-alt me-1"></i> Borrar
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <i class="fas fa-box-open fa-4x text-muted mb-3"></i>
+            <p class="lead">No hay Pokémon registrados aún.</p>
+            {% if user.is_authenticated %}
+                <a href="{% url 'pokedex:add_pokemon' %}" class="btn btn-success rounded-pill">
+                    <i class="fas fa-plus me-1"></i> Agregar Pokémon
+                </a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Botón flotante para agregar (solo si hay sesión) -->
+    {% if user.is_authenticated and pokemons %}
+        <div class="position-fixed bottom-0 end-0 m-4">
+            <a href="{% url 'pokedex:add_pokemon' %}" class="btn btn-success rounded-circle shadow-lg" style="width: 56px; height: 56px; font-size: 24px;">
+                <i class="fas fa-plus"></i>
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock content %}

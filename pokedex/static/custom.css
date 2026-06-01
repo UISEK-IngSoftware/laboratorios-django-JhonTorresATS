@@ -2,6 +2,7 @@
     width: 600px;
     height: 130px;
     margin-right: 100px;
+    color: secondary;
 }
 
 .pokemon-card {
@@ -49,3 +50,4 @@
   padding: 0.45rem 0.9rem;
   font-size: 0.9rem;
 }
+

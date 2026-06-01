@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Entrenadores | Pokédex{% endblock title %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Encabezado con contador -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h1 class="display-5 fw-bold text-dark m-0">
+            <i class="fas fa-users text-success me-2"></i>Entrenadores
+        </h1>
+        <span class="badge bg-success rounded-pill fs-6 px-3 py-2">
+            {{ trainers|length }} registrados
+        </span>
+    </div>
+
+    <!-- Grid responsivo -->
+    <div class="row g-4">
+        {% for trainer in trainers %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden transition-all trainer-card">
+                <!-- Contenedor de imagen con fondo degradado -->
+                <div class="card-img-top-wrapper bg-gradient-forest d-flex align-items-center justify-content-center p-3" style="height: 220px;">
+                    {% if trainer.picture %}
+                        <img src="{{ trainer.picture.url }}" class="img-fluid rounded-3 trainer-img" alt="{{ trainer.first_name }}" style="max-height: 100%; object-fit: contain;">
+                    {% else %}
+                        <i class="fas fa-user-circle fa-5x text-secondary"></i>
+                    {% endif %}
+                </div>
+                
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold mb-2">
+                        {{ trainer.first_name|capfirst }} {{ trainer.last_name|capfirst }}
+                    </h5>
+                    <p class="card-text text-muted">
+                        <i class="fas fa-star me-1 text-warning"></i> Nivel: {{ trainer.level }}
+                    </p>
+                    
+                    <!-- Botones de acción -->
+                    <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+                        <a href="{% url 'pokedex:trainer_details' trainer.id %}" class="btn btn-outline-info btn-sm rounded-pill px-3">
+                            <i class="fas fa-eye me-1"></i> Ver
+                        </a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'pokedex:update_trainer' trainer.id %}" class="btn btn-outline-warning btn-sm rounded-pill px-3">
+                                <i class="fas fa-edit me-1"></i> Editar
+                            </a>
+                            <a href="{% url 'pokedex:delete_trainer' trainer.id %}" class="btn btn-outline-danger btn-sm rounded-pill px-3">
+                                <i class="fas fa-trash-alt me-1"></i> Borrar
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <i class="fas fa-user-slash fa-4x text-muted mb-3"></i>
+            <p class="lead">No hay entrenadores registrados aún.</p>
+            {% if user.is_authenticated %}
+                <a href="{% url 'pokedex:add_trainer' %}" class="btn btn-success rounded-pill">
+                    <i class="fas fa-plus me-1"></i> Agregar Entrenador
+                </a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Botón flotante para agregar (solo autenticado y si hay datos) -->
+    {% if user.is_authenticated and trainers %}
+        <div class="position-fixed bottom-0 end-0 m-4">
+            <a href="{% url 'pokedex:add_trainer' %}" class="btn btn-success rounded-circle shadow-lg" style="width: 56px; height: 56px; font-size: 24px;">
+                <i class="fas fa-plus"></i>
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock content %}
