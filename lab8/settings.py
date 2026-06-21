@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'oauth2_provider',
     'pokedex',
     'api',
 ]
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
 ]
 
 ROOT_URLCONF = 'lab8.urls'
@@ -140,3 +142,17 @@ LOGOUT_REDIRECT_URL = 'pokedex:index'
 LOGIN_URL = 'pokedex:login'
 
 DEBUG = True
+
+OAUTH2_PROVIDER = {
+    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.OAuthLibCore',
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 259200,  # 30 days 
+}
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'oauth2_provider.backends.OAuth2Backend',
+)
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    ),
+}
